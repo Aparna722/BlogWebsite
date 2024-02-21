@@ -1,0 +1,22 @@
+{% load static %}
+<html>
+    <head>
+        <title>blog details</title>
+    </head>
+    <body>
+        {% for i in blogdetails %}
+        <h2>name:{{i.name}}</h2>
+        <h2>email:{{i.email}}</h2>
+        <h2>message:{{i.message}}</h2>
+        {% if i.image %}
+
+        <h2><img src="{{i.image.url}}" style="max-width: 300px; max-height: 200px;"></h2>
+        {% else %}
+                <p>No image available</p>
+        {% endif %}
+
+        <div class="edit-button"><button><a href="{% url 'edit' i.id %}">edit</a></button></div>
+        <div class="delete-button"><button><a href="{% url 'delete' i.id %}">delete</a></button></div>
+        {% endfor %}
+    </body>
+</html>
