@@ -1,4 +1,5 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import *
 from django.core.files.storage import FileSystemStorage
@@ -12,6 +13,8 @@ from .models import Blog
 
 def index(request):
     return render(request,"index.html")
+
+
 
 def post(request):
     if request.method=="POST":
@@ -36,18 +39,38 @@ def post(request):
 def blogview(request):
     return render(request,"blog.html")
 
-def blog_view(request,id):
-    if request.method == "POST":
-        blog = Blog.objects.get(id=id)
-        blog.likes += 1
-        blog.save()
+#def blog_view(request,id):
+    #blog = Blog.objects.get(id=id)
+        #blog.likes += 1
+        #blog.save()
+    #blogdetails = Blog.objects.all()
+    #context = {
+        #'blogdetails':blogdetails
+    #}
+    #return render(request,"blog.html",context)
+
+def blog_view(request, id):
+    blog = get_object_or_404(Blog, id=id)
+    user = request.user
+
+    # Check if the user has already liked the post
+    if user in blog.likes.all():
+        # User has already liked, remove the like
+        blog.likes.remove(user)
+    else:
+        # User has not liked, add the like
+        blog.likes.add(user)
+
+    # Save the changes
+    blog.save()
+
+    # Retrieve all blog details for rendering
     blogdetails = Blog.objects.all()
     context = {
-        'blogdetails':blogdetails
+        'blogdetails': blogdetails
     }
-    return render(request,"blog.html",context)
 
-
+    return render(request, "blog.html", context)
 def check(request):
     blogdetails=Blog.objects.all()
     context={
