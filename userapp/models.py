@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Blog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=1)
     name=models.CharField(max_length=50)
     email=models.EmailField()
     message=models.CharField(max_length=100)

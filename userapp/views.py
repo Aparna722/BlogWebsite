@@ -50,21 +50,21 @@ def blogview(request):
     #return render(request,"blog.html",context)
 
 def blog_view(request, id):
-    blog = get_object_or_404(Blog, id=id)
+    blog = get_object_or_404(Blog,id=id)
     user = request.user
 
-    # Check if the user has already liked the post
+    
     if user in blog.likes.all():
-        # User has already liked, remove the like
+        
         blog.likes.remove(user)
     else:
-        # User has not liked, add the like
+        
         blog.likes.add(user)
 
-    # Save the changes
+    
     blog.save()
 
-    # Retrieve all blog details for rendering
+    
     blogdetails = Blog.objects.all()
     context = {
         'blogdetails': blogdetails
@@ -140,3 +140,14 @@ def seeblog(request,bid):
         'n':n
     }
     return render(request,"seeblog.html",context)
+
+def user_profile(request, user_id):
+    user = get_object_or_404(Userdetails, id=user_id)
+    user_blogs = Blog.objects.filter(user=user.user)
+
+    context = {
+        'user': user,
+        'user_blogs': user_blogs,
+    }
+
+    return render(request, 'user_profile.html', context)

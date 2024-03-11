@@ -1094,11 +1094,14 @@ Start Blog Section
 
                         <div class="content-container">
                             <div class="blog-post">
+							
                             <h3>{{ i.name }}</h3>
                             <p>{{ i.message }}</p>
                             <img src="{{ i.image.url }}" alt="blog image" width="353px" height="250px">
                         </div>
-
+						<div class="user-profile-info">
+							<h4>Posted by: <a href="{% url 'user_profile' user_id=i.user.id %}">{{ i.user.userdetails.firstname }} {{ i.user.userdetails.lastname }}</a></h4>
+						</div>
                             <div class="review-form">
                                 
                                         <form>

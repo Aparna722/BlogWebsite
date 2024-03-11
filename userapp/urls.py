@@ -17,6 +17,8 @@ urlpatterns=[
     path('userblog',views.userblog,name="userblog"),
     path('about',views.about,name="about"),
     path('seeblog/<int:bid>',views.seeblog,name="seeblog"),
+    path('user_profile/<int:user_id>/', views.user_profile, name='user_profile'),
+
 
 
 
